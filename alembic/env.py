@@ -7,6 +7,8 @@ load_dotenv()
 from app.database import Base
 from app.models.user import User
 from app.models.product import Product
+from app.models.cart import Cart
+from app.models.cart_item import CartItem
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
