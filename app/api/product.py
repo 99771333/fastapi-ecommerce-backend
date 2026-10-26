@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.core.security import get_current_user
 from app.models.user import User
 from app.database import get_db
 from app.models.product import Product
+from app.core.security import get_current_user, get_admin_user
 from app.schemas.product import (
     ProductCreate,
     ProductResponse,
@@ -22,7 +22,7 @@ router = APIRouter(prefix="/products", tags=["Products"])
 def create_product(
     product_data: ProductCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_admin_user)
 ):
     
     new_product = Product(
@@ -65,7 +65,7 @@ def update_product(
     product_id: int,
     product_data: ProductUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_admin_user)
 ):
     product = db.query(Product).filter(
         Product.id == product_id
@@ -91,7 +91,7 @@ def update_product(
 def delete_product(
     product_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_admin_user)
 ):
     product = db.query(Product).filter(
         Product.id == product_id
