@@ -65,10 +65,11 @@ def checkout(
         total_amount += item_total
 
         order_items_data.append({
-            "product": product,
-            "quantity": cart_item.quantity,
-            "price": price
-        })
+    "product": product,
+    "product_name": product.name,
+    "quantity": cart_item.quantity,
+    "price": price
+    })
 
     try:
         order = Order(
@@ -87,9 +88,10 @@ def checkout(
             order_item = OrderItem(
                 order_id=order.id,
                 product_id=product.id,
+                product_name=item["product_name"],
                 quantity=item["quantity"],
                 price=item["price"]
-            )
+           )
             db.add(order_item)
 
             product.stock -= item["quantity"]
@@ -133,7 +135,7 @@ def get_my_orders(
             "items": [
                 {
                     "product_id": item.product_id,
-                    "product_name": item.product.name,
+                    "product_name": item.product_name,
                     "quantity": item.quantity,
                     "price": str(item.price)
                 }
